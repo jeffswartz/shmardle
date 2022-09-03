@@ -1,0 +1,107 @@
+<html>
+<head>
+  <title>SHMARDLE!</title>
+  <style>
+    #container div {
+      display: flex;
+      width: fit-content;
+      padding: 4px;
+    }
+    #container div div {
+      border: 1px black solid;
+      width: 60px;
+      height: 60px;
+      margin: 3px;
+      background-color: #eee;
+    }
+    #container div div p {
+      font-size: 46px;
+      font-family: sans-serif;
+      margin: auto;
+    }
+    h1 {
+      font-family: sans-serif;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>SHMARDLE!</h1>
+  <div id="container">
+  </div>
+  <script src="./words6-no-repeat.js"></script>
+  <script>
+    const container = document.querySelector('#container');
+    const WORD_LENGTH = 6;
+    let guess = '';
+    let secretWord;
+
+    const makeRowDiv = (word) => {
+      const rowDiv = document.createElement('div');
+      for (let i = 0; i < WORD_LENGTH; i++) {
+        const letterDiv = document.createElement('div');
+        rowDiv.appendChild(letterDiv);
+      }
+      return rowDiv;
+    }
+
+    const addWord = (word) => {
+      const row = makeRowDiv(word);
+      container.appendChild(row)
+    }
+
+    const checkWord = () => {
+      const rowSquares = container.lastChild.children;
+
+      for (let i = 0; i < WORD_LENGTH; i++) {
+        if (guess[i] === secretWord[i]) {
+          rowSquares[i].style['background-color'] = 'lightgreen';
+        } else if (secretWord.indexOf(guess[i]) !== -1) {
+          rowSquares[i].style['background-color'] = 'gold';
+        }
+      }
+
+      if (guess === secretWord) {
+        container.lastChild.style['background-color'] = 'green';
+      } else {
+        guess = '';
+        addWord();
+      }
+    }
+
+    addLetter = (letter) => {
+      const row = container.lastChild;
+      let i;
+      guess += letter;
+      const p = document.createElement('p');
+
+      for (i = 0; i < WORD_LENGTH; i++) {
+        if (!row.children[i].querySelector('p')) {
+          break;
+        };
+      }
+
+      p.innerHTML = letter;  
+      row.children[i].appendChild(p);
+
+      if (i === (WORD_LENGTH - 1)) {
+        checkWord();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      secretWord = words6NoRepeat[Math.floor(Math.random() * (words6NoRepeat.length - 1))];
+      console.log(secretWord);
+      addWord();
+    });
+
+    window.document.addEventListener('keyup', (e) => {
+      const key = e.key;
+      console.log(key, key.length)
+      if ((/[a-z]/.exec(key) || /[A-Z]/.exec(key)) && key.length === 1) {
+        addLetter(key.toLowerCase());
+      }
+    });
+
+  </script>
+</body>
