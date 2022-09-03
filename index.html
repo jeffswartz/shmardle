@@ -111,7 +111,7 @@
 
     window.document.addEventListener('keyup', (e) => {
       const key = e.key;
-      if (e.keyCode === 8) {
+      if (e.keyCode === 8 || e.keyCode === 32) {
         deleteLetter();
       } else if ((/[a-z]/.exec(key) || /[A-Z]/.exec(key)) && key.length === 1) {
         addLetter(key.toLowerCase());
