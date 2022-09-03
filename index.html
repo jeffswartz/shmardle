@@ -22,6 +22,9 @@
     h1 {
       font-family: sans-serif;
     }
+    #text-input {
+      opacity: 0.1;
+    }
 
   </style>
 </head>
@@ -29,6 +32,7 @@
   <h1>SHMARDLE!</h1>
   <div id="container">
   </div>
+  <input type=textarea id="text-input"></input>
   <script src="./words6-no-repeat.js"></script>
   <script>
     const container = document.querySelector('#container');
@@ -91,13 +95,12 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       secretWord = words6NoRepeat[Math.floor(Math.random() * (words6NoRepeat.length - 1))];
-      console.log(secretWord);
       addWord();
+      document.getElementById('text-input').focus();
     });
 
     window.document.addEventListener('keyup', (e) => {
       const key = e.key;
-      console.log(key, key.length)
       if ((/[a-z]/.exec(key) || /[A-Z]/.exec(key)) && key.length === 1) {
         addLetter(key.toLowerCase());
       }
