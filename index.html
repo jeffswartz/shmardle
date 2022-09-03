@@ -93,6 +93,16 @@
       }
     }
 
+    deleteLetter = (deleteLetter) => {
+      const row = container.lastChild;
+      if (guess === '') {
+        return;
+      }
+
+      guess = guess.substr(0, guess.length - 1);
+      row.children[guess.length].children[0].remove();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       secretWord = words6NoRepeat[Math.floor(Math.random() * (words6NoRepeat.length - 1))];
       addWord();
@@ -101,7 +111,9 @@
 
     window.document.addEventListener('keyup', (e) => {
       const key = e.key;
-      if ((/[a-z]/.exec(key) || /[A-Z]/.exec(key)) && key.length === 1) {
+      if (e.keyCode === 8) {
+        deleteLetter();
+      } else if ((/[a-z]/.exec(key) || /[A-Z]/.exec(key)) && key.length === 1) {
         addLetter(key.toLowerCase());
       }
     });
